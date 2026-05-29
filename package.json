@@ -2,8 +2,7 @@
   "name": "placement-platform",
   "version": "1.0.0",
   "scripts": {
-    "build": "cd server && npm install && cd ../client && npm install && npm run build",
+    "build": "cd client && npm install && npm run build",
     "install-all": "cd server && npm install && cd ../client && npm install"
   }
 }
-
