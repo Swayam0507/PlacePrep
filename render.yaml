@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: placement-ml-service
+    env: python
+    buildCommand: "cd ml-service && pip install -r requirements.txt"
+    startCommand: "cd ml-service && gunicorn ml_service.wsgi:application --bind 0.0.0.0:$PORT"
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.10.0
