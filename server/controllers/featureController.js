@@ -368,5 +368,4 @@ module.exports = {
   checkAndAwardCertificates,
   getResumeScore,
   bulkImportQuestions,
-  addCheatTests,
 };
