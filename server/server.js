@@ -52,16 +52,19 @@ app.use(async (req, res, next) => {
     await dbReady;
     next();
   } catch (err) {
-    console.error("DB connection failed:", err.message);
+    console.error("DB connection failed first try:", err.message);
     // Try reconnecting
     try {
       dbReady = connectDB();
       await dbReady;
       next();
     } catch (retryErr) {
+      console.error("DB connection retry failed:", retryErr.message);
       res.status(500).json({
         success: false,
         message: "Database connection failed. Please try again.",
+        error: retryErr.message,
+        stack: retryErr.stack
       });
     }
   }
