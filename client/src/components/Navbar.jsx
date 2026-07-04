@@ -47,7 +47,7 @@ const Navbar = () => {
               <path d="M6 12v5c3 3 9 3 12 0v-5" />
             </svg>
           </div>
-          <span className="logo-text">PlacePrep {isAdmin ? "Admin" : ""}</span>
+          <span className="logo-text">PlaceEdge {isAdmin ? "Admin" : ""}</span>
         </Link>
 
         {/* Desktop Nav */}

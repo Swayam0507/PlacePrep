@@ -55,11 +55,11 @@ const sendWelcomeEmail = async (user) => {
       <body>
         <div class="container">
           <div class="header">
-            <h1>🚀 Welcome to PlacePrep!</h1>
+            <h1>🚀 Welcome to PlaceEdge!</h1>
           </div>
           <div class="body">
             <p>Hi <strong>${user.name}</strong>,</p>
-            <p>We are thrilled to have you join PlacePrep! Your account has been successfully created.</p>
+            <p>We are thrilled to have you join PlaceEdge! Your account has been successfully created.</p>
             <p>Here’s what you can do next:</p>
             <ul>
               <li>Take aptitude tests to gauge your skills</li>
@@ -74,7 +74,7 @@ const sendWelcomeEmail = async (user) => {
             </div>
             <div class="footer">
               <p>Automated email from Smart Placement Platform.</p>
-              <p>© ${new Date().getFullYear()} PlacePrep. All rights reserved.</p>
+              <p>© ${new Date().getFullYear()} PlaceEdge. All rights reserved.</p>
             </div>
           </div>
         </div>
@@ -84,9 +84,9 @@ const sendWelcomeEmail = async (user) => {
 
     const transporter = await createTransporter();
     const info = await transporter.sendMail({
-      from: `"PlacePrep" <${process.env.EMAIL_USER || "noreply@placeprep.com"}>`,
+      from: `"PlaceEdge" <${process.env.EMAIL_USER || "noreply@PlaceEdge.com"}>`,
       to: user.email,
-      subject: `Welcome to PlacePrep, ${user.name}! 🚀`,
+      subject: `Welcome to PlaceEdge, ${user.name}! 🚀`,
       html: emailHtml,
     });
 
@@ -174,7 +174,7 @@ const sendTestResultEmailInternal = async (user, attempt) => {
 
             <div class="footer">
               <p>Automated email from Smart Placement Platform.</p>
-              <p>© ${new Date().getFullYear()} PlacePrep. All rights reserved.</p>
+              <p>© ${new Date().getFullYear()} PlaceEdge. All rights reserved.</p>
             </div>
           </div>
         </div>
@@ -184,7 +184,7 @@ const sendTestResultEmailInternal = async (user, attempt) => {
 
     const transporter = await createTransporter();
     const info = await transporter.sendMail({
-      from: `"PlacePrep" <${process.env.EMAIL_USER || "noreply@placeprep.com"}>`,
+      from: `"PlaceEdge" <${process.env.EMAIL_USER || "noreply@PlaceEdge.com"}>`,
       to: user.email,
       subject: `📋 Your ${attempt.category} Test Result — ${attempt.percentage}%`,
       html: emailHtml,
@@ -226,7 +226,7 @@ const sendPasswordResetEmail = async (user, resetUrl) => {
           </div>
           <div class="body">
             <p>Hi <strong>${user.name}</strong>,</p>
-            <p>You requested a password reset for your PlacePrep account.</p>
+            <p>You requested a password reset for your PlaceEdge account.</p>
             <p>Please click the button below to set a new password. This link is valid for 10 minutes.</p>
             <div style="text-align: center;">
               <a href="${resetUrl}" class="btn">
@@ -236,7 +236,7 @@ const sendPasswordResetEmail = async (user, resetUrl) => {
             <p style="margin-top: 25px; font-size: 0.9em; color: #94a3b8;">If you did not request this reset, you can safely ignore this email.</p>
             <div class="footer">
               <p>Automated email from Smart Placement Platform.</p>
-              <p>© ${new Date().getFullYear()} PlacePrep. All rights reserved.</p>
+              <p>© ${new Date().getFullYear()} PlaceEdge. All rights reserved.</p>
             </div>
           </div>
         </div>
@@ -246,7 +246,7 @@ const sendPasswordResetEmail = async (user, resetUrl) => {
 
     const transporter = await createTransporter();
     const info = await transporter.sendMail({
-      from: `"PlacePrep Support" <${process.env.EMAIL_USER || "noreply@placeprep.com"}>`,
+      from: `"PlaceEdge Support" <${process.env.EMAIL_USER || "noreply@PlaceEdge.com"}>`,
       to: user.email,
       subject: "Password Reset Request",
       html: emailHtml,

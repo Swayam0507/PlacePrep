@@ -12,7 +12,7 @@ const User = require("../models/User");
 
 const ADMIN_DATA = {
   name: "Dr. Rajesh Kumar",
-  email: "admin@placeprep.com",
+  email: "admin@PlaceEdge.com",
   password: "Admin@2026",
   role: "admin",
   branch: "Training & Placement Cell",

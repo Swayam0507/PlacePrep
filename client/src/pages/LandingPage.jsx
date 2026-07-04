@@ -137,10 +137,10 @@ const LandingPage = () => {
       <footer className="landing-footer">
         <div className="footer-content">
           <div className="footer-brand">
-            <span className="gradient-text" style={{ fontSize: "1.3rem", fontWeight: 800 }}>PlacePrep</span>
+            <span className="gradient-text" style={{ fontSize: "1.3rem", fontWeight: 800 }}>PlaceEdge</span>
             <p>Smart Placement Preparation Platform</p>
           </div>
-          <p className="footer-copy">© {new Date().getFullYear()} PlacePrep. Built with ❤️ for students.</p>
+          <p className="footer-copy">© {new Date().getFullYear()} PlaceEdge. Built with ❤️ for students.</p>
         </div>
       </footer>
     </div>

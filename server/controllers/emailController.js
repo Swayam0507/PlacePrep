@@ -147,7 +147,7 @@ const sendTestResultEmail = async (req, res) => {
 
             <div class="footer">
               <p>This is an automated email from Smart Placement Platform.</p>
-              <p>© ${new Date().getFullYear()} PlacePrep. All rights reserved.</p>
+              <p>© ${new Date().getFullYear()} PlaceEdge. All rights reserved.</p>
             </div>
           </div>
         </div>
@@ -158,7 +158,7 @@ const sendTestResultEmail = async (req, res) => {
     // Send email
     const transporter = await createTransporter();
     const info = await transporter.sendMail({
-      from: `"PlacePrep" <${process.env.EMAIL_USER || "noreply@placeprep.com"}>`,
+      from: `"PlaceEdge" <${process.env.EMAIL_USER || "noreply@PlaceEdge.com"}>`,
       to: user.email,
       subject: `📋 Your ${attempt.category} Test Result — ${attempt.percentage}%`,
       html: emailHtml,
@@ -304,7 +304,7 @@ const sendPlacementReadiness = async (req, res) => {
 
             <div class="footer">
               <p>This is an automated email from Smart Placement Platform.</p>
-              <p>© ${new Date().getFullYear()} PlacePrep. All rights reserved.</p>
+              <p>© ${new Date().getFullYear()} PlaceEdge. All rights reserved.</p>
             </div>
           </div>
         </div>
@@ -314,7 +314,7 @@ const sendPlacementReadiness = async (req, res) => {
 
     const transporter = await createTransporter();
     const info = await transporter.sendMail({
-      from: `"PlacePrep" <${process.env.EMAIL_USER || "noreply@placeprep.com"}>`,
+      from: `"PlaceEdge" <${process.env.EMAIL_USER || "noreply@PlaceEdge.com"}>`,
       to: user.email,
       subject: `${readinessEmoji} Your Placement Readiness: ${readinessLevel} (${avgScore}%)`,
       html: emailHtml,

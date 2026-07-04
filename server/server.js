@@ -11,11 +11,11 @@ dotenv.config();
 const seedAdmin = async () => {
   try {
     const User = require("./models/User");
-    const existingAdmin = await User.findOne({ email: "admin@placeprep.com" });
+    const existingAdmin = await User.findOne({ email: "admin@PlaceEdge.com" });
     if (!existingAdmin) {
       await User.create({
         name: "Dr. Rajesh Kumar",
-        email: "admin@placeprep.com",
+        email: "admin@PlaceEdge.com",
         password: "Admin@2026",
         role: "admin",
         branch: "Training & Placement Cell",
@@ -25,7 +25,7 @@ const seedAdmin = async () => {
         phone: "+91 98765 43210",
         skills: ["Student Mentoring", "Industry Relations", "Recruitment Strategy", "Career Counseling"],
       });
-      console.log("✅ Admin account seeded: admin@placeprep.com / Admin@2026");
+      console.log("✅ Admin account seeded: admin@PlaceEdge.com / Admin@2026");
     }
   } catch (err) {
     // Admin may already exist or DB not ready yet — ignore

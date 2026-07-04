@@ -1,6 +1,6 @@
-# PlacePrep 🚀
+# PlaceEdge 🚀
 
-**PlacePrep** is a comprehensive, smart placement preparation platform designed to help students prepare for technical and aptitude interviews. It provides a full suite of features including dynamic testing, machine learning predictions for placement readiness, an interactive forum, and beautifully generated achievement certificates.
+**PlaceEdge** is a comprehensive, smart placement preparation platform designed to help students prepare for technical and aptitude interviews. It provides a full suite of features including dynamic testing, machine learning predictions for placement readiness, an interactive forum, and beautifully generated achievement certificates.
 
 ## 🌟 Key Features
 
@@ -28,8 +28,8 @@
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/Swayam0507/PlacePrep.git
-cd PlacePrep
+git clone https://github.com/Swayam0507/PlaceEdge.git
+cd PlaceEdge
 ```
 
 ### 2. Install Dependencies

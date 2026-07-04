@@ -92,7 +92,7 @@ const Register = () => {
                 <path d="M6 12v5c3 3 9 3 12 0v-5" />
               </svg>
             </div>
-            <h1>Join PlacePrep</h1>
+            <h1>Join PlaceEdge</h1>
             <p>Start your journey towards your dream placement. Track progress, practice skills, and get AI-powered insights.</p>
             <div className="branding-features">
               <div className="feature-item">

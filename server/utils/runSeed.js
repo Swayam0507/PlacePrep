@@ -21,7 +21,7 @@ const MONGO_URI = process.env.MONGO_URI;
 // =================== ADMIN DATA ===================
 const ADMIN_DATA = {
   name: "Dr. Rajesh Kumar",
-  email: "admin@placeprep.com",
+  email: "admin@PlaceEdge.com",
   password: "Admin@2026",
   role: "admin",
   branch: "Training & Placement Cell",
@@ -171,7 +171,7 @@ const runSeed = async () => {
 
     // ========== DONE ==========
     console.log("🎉 All seeding completed successfully!");
-    console.log("📧 Admin login: admin@placeprep.com / Admin@2026");
+    console.log("📧 Admin login: admin@PlaceEdge.com / Admin@2026");
     console.log("📧 Student login example: aarav.mehta@gmail.com / Student@123\n");
 
     await mongoose.connection.close();
