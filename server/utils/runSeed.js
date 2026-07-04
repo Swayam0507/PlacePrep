@@ -1,3 +1,15 @@
+/**
+ * Combined Seed Script with DNS Fix
+ * Forces Google DNS to resolve MongoDB Atlas SRV records
+ * Run: node utils/runSeed.js
+ */
+
+// ========== FORCE GOOGLE DNS BEFORE ANYTHING ELSE ==========
+const dns = require("dns");
+dns.setServers(["8.8.8.8", "8.8.4.4", "1.1.1.1"]);
+console.log("🔧 DNS forced to Google/Cloudflare:", dns.getServers());
+
+// ========== NOW LOAD EVERYTHING ==========
 require("dotenv").config({ path: __dirname + "/../.env" });
 const mongoose = require("mongoose");
 const User = require("../models/User");
@@ -6,6 +18,21 @@ const ForumPost = require("../models/ForumPost");
 
 const MONGO_URI = process.env.MONGO_URI;
 
+// =================== ADMIN DATA ===================
+const ADMIN_DATA = {
+  name: "Dr. Rajesh Kumar",
+  email: "admin@placeprep.com",
+  password: "Admin@2026",
+  role: "admin",
+  branch: "Training & Placement Cell",
+  semester: 1,
+  cgpa: 10,
+  bio: "Head of Training & Placement Cell. 15+ years of experience in campus recruitment and student career development.",
+  phone: "+91 98765 43210",
+  skills: ["Student Mentoring", "Industry Relations", "Recruitment Strategy", "Career Counseling"],
+};
+
+// =================== STUDENT DATA ===================
 const STUDENTS = [
   { name: "Aarav Mehta", branch: "Computer Science", semester: 8, cgpa: 9.12, skills: ["React", "Node.js", "TypeScript", "MongoDB"], bio: "Full-stack developer with a passion for building scalable web applications. ICPC regionalist 2025." },
   { name: "Diya Sharma", branch: "Computer Science", semester: 7, cgpa: 9.45, skills: ["Python", "TensorFlow", "NLP", "AWS"], bio: "AI/ML enthusiast working on NLP research. Published a paper on transformer architectures at EMNLP." },
@@ -35,191 +62,124 @@ const STUDENTS = [
 ];
 
 const FORUM_QUESTIONS = [
-  {
-    title: "TCS Digital Interview Experience — June 2026 Batch",
-    content: "Just had my TCS Digital interview yesterday. They asked 2 coding questions (graph BFS and dynamic programming knapsack), followed by a technical round on DBMS and OS concepts. The HR round was pretty standard. Sharing my experience for those preparing!",
-    tags: ["TCS", "Interview Experience", "Placement 2026"]
-  },
-  {
-    title: "How to crack Amazon SDE-1 for freshers in 2026?",
-    content: "I have my Amazon online assessment next month. I've been grinding LeetCode for 3 months but unsure about which topics to prioritize. For those who've cleared it recently — did they focus more on graphs/trees or DP? Any recommended resources?",
-    tags: ["Amazon", "SDE-1", "Preparation Tips"]
-  },
-  {
-    title: "Infosys Power Programmer vs Specialist Programmer — Which is better?",
-    content: "Got shortlisted for both Infosys PP and SP roles. The CTC for PP is 9.5 LPA and SP is 6.5 LPA. But I heard PP has a bond and more demanding work. Can someone who joined either role share their experience? Is the extra CTC worth it?",
-    tags: ["Infosys", "Career Advice", "Package Comparison"]
-  },
-  {
-    title: "Best approach to learn System Design for placements?",
-    content: "Many companies are now asking system design questions even for entry-level positions. I started with 'Designing Data-Intensive Applications' but it feels too theoretical. What practical resources helped you? Should I focus on HLD or LLD first?",
-    tags: ["System Design", "Preparation", "Learning Resources"]
-  },
-  {
-    title: "CGPA vs Skills — What matters more in 2026 placements?",
-    content: "I have a 7.5 CGPA but strong project experience and 400+ LeetCode problems solved. My friend has 9.2 CGPA but minimal projects. We're both targeting product companies. Does CGPA still matter as a filter, or are companies more flexible now?",
-    tags: ["CGPA", "Placements", "Career Discussion"]
-  },
-  {
-    title: "Wipro Elite NLTH 2026 — Coding round difficulty level?",
-    content: "Registered for Wipro's Elite National Level Talent Hunt. Last year's cutoff was reportedly 70% in the aptitude section. How tough is the coding section compared to TCS NQT? Any specific topics I should prepare?",
-    tags: ["Wipro", "NLTH", "Aptitude Test"]
-  },
-  {
-    title: "Resume tips for freshers with no internship experience",
-    content: "I couldn't land any internships due to personal reasons. Now placements are starting and my resume feels empty. How should I structure it? Should I list personal projects, hackathon participations, and certifications prominently?",
-    tags: ["Resume", "Freshers", "Career Advice"]
-  }
+  { title: "TCS Digital Interview Experience — June 2026 Batch", content: "Just had my TCS Digital interview yesterday. They asked 2 coding questions (graph BFS and dynamic programming knapsack), followed by a technical round on DBMS and OS concepts. The HR round was pretty standard. Sharing my experience for those preparing!", tags: ["TCS", "Interview Experience", "Placement 2026"] },
+  { title: "How to crack Amazon SDE-1 for freshers in 2026?", content: "I have my Amazon online assessment next month. I've been grinding LeetCode for 3 months but unsure about which topics to prioritize. For those who've cleared it recently — did they focus more on graphs/trees or DP? Any recommended resources?", tags: ["Amazon", "SDE-1", "Preparation Tips"] },
+  { title: "Infosys Power Programmer vs Specialist Programmer — Which is better?", content: "Got shortlisted for both Infosys PP and SP roles. The CTC for PP is 9.5 LPA and SP is 6.5 LPA. But I heard PP has a bond and more demanding work. Can someone who joined either role share their experience?", tags: ["Infosys", "Career Advice", "Package Comparison"] },
+  { title: "Best approach to learn System Design for placements?", content: "Many companies are now asking system design questions even for entry-level positions. I started with 'Designing Data-Intensive Applications' but it feels too theoretical. What practical resources helped you?", tags: ["System Design", "Preparation", "Learning Resources"] },
+  { title: "CGPA vs Skills — What matters more in 2026 placements?", content: "I have a 7.5 CGPA but strong project experience and 400+ LeetCode problems solved. My friend has 9.2 CGPA but minimal projects. Does CGPA still matter as a filter?", tags: ["CGPA", "Placements", "Career Discussion"] },
+  { title: "Wipro Elite NLTH 2026 — Coding round difficulty level?", content: "Registered for Wipro's Elite National Level Talent Hunt. Last year's cutoff was reportedly 70% in the aptitude section. How tough is the coding section compared to TCS NQT?", tags: ["Wipro", "NLTH", "Aptitude Test"] },
+  { title: "Resume tips for freshers with no internship experience", content: "I couldn't land any internships due to personal reasons. Now placements are starting and my resume feels empty. How should I structure it?", tags: ["Resume", "Freshers", "Career Advice"] },
 ];
 
 const FORUM_REPLIES = [
-  "Thanks for sharing! This is really helpful for those of us preparing. Could you share more about the coding question difficulty level?",
-  "I went through a similar process. Focus heavily on trees and graphs — they seem to be favorites this year. Good luck to everyone preparing!",
-  "Great advice! I'd also recommend practicing on GeeksforGeeks for company-specific questions. They have a dedicated section.",
-  "I'm in the same boat. Started with Striver's SDE sheet and it's been a game changer. Highly recommend for structured preparation.",
-  "For system design, I found Gaurav Sen's YouTube channel extremely helpful. He explains concepts with real-world examples.",
-  "Honestly, projects and problem-solving skills matter way more than CGPA at product companies. Just clear the cutoff and you're good.",
-  "I got placed at a service company with 7.8 CGPA and strong DSA skills. Don't let CGPA demotivate you — keep grinding!",
-  "Pro tip: Tailor your resume for each company. Highlight skills that match their job description. It makes a huge difference.",
-  "Can confirm the aptitude section is tricky. Practice R.S. Aggarwal thoroughly and time yourself. Speed matters a lot.",
-  "Remember to prepare behavioral questions too! Many candidates focus only on technical and bomb the HR round.",
-  "Mock interviews helped me the most. Try Pramp or do peer mock interviews with friends preparing for the same companies.",
-  "I'd suggest starting with LLD first — it's asked more frequently and builds a strong foundation for HLD."
+  "Thanks for sharing! This is really helpful for those of us preparing.",
+  "I went through a similar process. Focus heavily on trees and graphs — they seem to be favorites this year.",
+  "Great advice! I'd also recommend practicing on GeeksforGeeks for company-specific questions.",
+  "I'm in the same boat. Started with Striver's SDE sheet and it's been a game changer.",
+  "For system design, I found Gaurav Sen's YouTube channel extremely helpful.",
+  "Honestly, projects and problem-solving skills matter way more than CGPA at product companies.",
+  "I got placed at a service company with 7.8 CGPA and strong DSA skills. Don't let CGPA demotivate you!",
+  "Pro tip: Tailor your resume for each company. Highlight skills that match their JD.",
+  "Can confirm the aptitude section is tricky. Practice R.S. Aggarwal thoroughly.",
+  "Mock interviews helped me the most. Try Pramp or do peer mock interviews.",
+  "I'd suggest starting with LLD first — it's asked more frequently.",
+  "Remember to prepare behavioral questions too! Many candidates bomb the HR round.",
 ];
 
 const getRandom = (arr) => arr[Math.floor(Math.random() * arr.length)];
 const randomInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
 
-const seedStudents = async () => {
+// =================== MAIN SEED FUNCTION ===================
+const runSeed = async () => {
   try {
-    console.log("⏳ Connecting to MongoDB...");
-    await mongoose.connect(MONGO_URI);
-    console.log("✅ Connected to MongoDB");
+    console.log("\n⏳ Connecting to MongoDB...");
+    await mongoose.connect(MONGO_URI, { serverSelectionTimeoutMS: 30000 });
+    console.log("✅ Connected to MongoDB\n");
 
-    // First, clean up all old student data
-    console.log("🗑️  Removing old student data...");
+    // ========== SEED ADMIN ==========
+    console.log("=== 1/3: Seeding Admin ===");
+    await User.deleteMany({ role: "admin" });
+    const admin = await User.create(ADMIN_DATA);
+    console.log(`✅ Admin created: ${admin.email} / Admin@2026\n`);
+
+    // ========== SEED STUDENTS ==========
+    console.log("=== 2/3: Seeding Students ===");
     await User.deleteMany({ role: "student" });
     await TestAttempt.deleteMany({});
     await ForumPost.deleteMany({});
-    console.log("✅ Old data removed successfully");
+    console.log("🗑️  Old data cleaned");
 
-    console.log("⏳ Generating 25 realistic student profiles...");
-    
     let createdUsers = [];
-
     for (let i = 0; i < STUDENTS.length; i++) {
       const s = STUDENTS[i];
       const email = `${s.name.toLowerCase().replace(/ /g, ".")}@gmail.com`;
-      const password = "Student@123";
-      
       const user = await User.create({
-        name: s.name,
-        email,
-        password,
-        role: "student",
-        branch: s.branch,
-        semester: s.semester,
-        cgpa: s.cgpa,
-        skills: s.skills,
-        bio: s.bio,
+        name: s.name, email, password: "Student@123", role: "student",
+        branch: s.branch, semester: s.semester, cgpa: s.cgpa,
+        skills: s.skills, bio: s.bio,
         github: `https://github.com/${s.name.toLowerCase().replace(/ /g, "")}`,
         linkedin: `https://linkedin.com/in/${s.name.toLowerCase().replace(/ /g, "-")}`,
         phone: `+91 ${randomInt(70000, 99999)}${randomInt(10000, 99999)}`,
-        streak: {
-          current: randomInt(1, 21),
-          longest: randomInt(7, 45),
-          lastActiveDate: new Date(Date.now() - randomInt(0, 3) * 24 * 60 * 60 * 1000) // 0-3 days ago
-        }
+        streak: { current: randomInt(1, 21), longest: randomInt(7, 45), lastActiveDate: new Date(Date.now() - randomInt(0, 3) * 86400000) }
       });
       createdUsers.push(user);
     }
-    
-    console.log(`✅ Created ${createdUsers.length} student profiles.`);
+    console.log(`✅ Created ${createdUsers.length} students`);
 
-    console.log("⏳ Generating realistic test attempts for leaderboard...");
+    // Test attempts
     const testCategories = ["quantitative", "logical", "technical", "mixed"];
     let testCount = 0;
-
     for (let user of createdUsers) {
       const numTests = randomInt(3, 7);
       for (let j = 0; j < numTests; j++) {
-        const category = getRandom(testCategories);
         const totalQuestions = 20;
         const score = randomInt(6, 20);
-        const percentage = Math.round((score / totalQuestions) * 100);
-        const difficulty = getRandom(["easy", "medium", "hard"]);
-        
-        // Create test attempts with realistic timestamps spread over last 30 days
-        const daysAgo = randomInt(0, 30);
-        const createdAt = new Date(Date.now() - daysAgo * 24 * 60 * 60 * 1000);
-        
         await TestAttempt.create({
-          userId: user._id,
-          category,
-          score,
-          totalQuestions,
-          percentage,
-          answers: [],
-          timeTaken: randomInt(480, 1200), // 8-20 mins
-          difficulty,
-          createdAt
+          userId: user._id, category: getRandom(testCategories),
+          score, totalQuestions, percentage: Math.round((score / totalQuestions) * 100),
+          answers: [], timeTaken: randomInt(480, 1200),
+          difficulty: getRandom(["easy", "medium", "hard"]),
+          createdAt: new Date(Date.now() - randomInt(0, 30) * 86400000)
         });
         testCount++;
       }
     }
-    console.log(`✅ Created ${testCount} test attempts.`);
+    console.log(`✅ Created ${testCount} test attempts`);
 
-    console.log("⏳ Generating realistic forum posts and replies...");
+    // Forum posts
     let postCount = 0;
-    
     for (let q of FORUM_QUESTIONS) {
-      const author = getRandom(createdUsers);
-      const daysAgo = randomInt(0, 14);
-      
       const post = await ForumPost.create({
-        title: q.title,
-        content: q.content,
-        userId: author._id,
+        title: q.title, content: q.content, userId: getRandom(createdUsers)._id,
         tags: q.tags,
         upvotes: Array.from({ length: randomInt(3, 12) }, () => getRandom(createdUsers)._id),
-        replies: [],
-        createdAt: new Date(Date.now() - daysAgo * 24 * 60 * 60 * 1000)
+        replies: [], createdAt: new Date(Date.now() - randomInt(0, 14) * 86400000)
       });
       postCount++;
-
-      // Generate 2-5 diverse replies
       const numReplies = randomInt(2, 5);
       const usedReplies = new Set();
-      
       for (let k = 0; k < numReplies; k++) {
-        const replyAuthor = getRandom(createdUsers);
-        let replyContent;
-        do {
-          replyContent = getRandom(FORUM_REPLIES);
-        } while (usedReplies.has(replyContent) && usedReplies.size < FORUM_REPLIES.length);
-        usedReplies.add(replyContent);
-
+        let reply;
+        do { reply = getRandom(FORUM_REPLIES); } while (usedReplies.has(reply) && usedReplies.size < FORUM_REPLIES.length);
+        usedReplies.add(reply);
         await ForumPost.findByIdAndUpdate(post._id, {
-          $push: {
-            replies: {
-              content: replyContent,
-              userId: replyAuthor._id,
-              upvotes: Array.from({ length: randomInt(0, 5) }, () => getRandom(createdUsers)._id)
-            }
-          }
+          $push: { replies: { content: reply, userId: getRandom(createdUsers)._id, upvotes: Array.from({ length: randomInt(0, 5) }, () => getRandom(createdUsers)._id) } }
         });
       }
     }
-    console.log(`✅ Created ${postCount} forum posts with diverse replies.`);
+    console.log(`✅ Created ${postCount} forum posts with replies\n`);
 
-    console.log("\n🎉 Seeding completely successful!");
-    console.log("📧 All students use password: Student@123");
-    console.log("👤 Example login: aarav.mehta@gmail.com / Student@123\n");
+    // ========== DONE ==========
+    console.log("🎉 All seeding completed successfully!");
+    console.log("📧 Admin login: admin@placeprep.com / Admin@2026");
+    console.log("📧 Student login example: aarav.mehta@gmail.com / Student@123\n");
+
+    await mongoose.connection.close();
     process.exit(0);
   } catch (error) {
-    console.error("❌ Error seeding data:", error);
+    console.error("❌ Seed Error:", error.message || error);
     process.exit(1);
   }
 };
 
-seedStudents();
+runSeed();

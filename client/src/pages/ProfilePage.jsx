@@ -85,8 +85,8 @@ const ProfilePage = () => {
               <h1>{profile?.name}</h1>
               <p className="profile-email">{profile?.email}</p>
               <div className="profile-badges-row">
-                <span className={`role-badge ${profile?.role}`}>
-                  {profile?.role === "admin" ? "🛡️ Admin" : "🎓 Student"}
+                <span className={`role-badge student`}>
+                  {"🎓 Student"}
                 </span>
                 {profile?.branch && <span className="info-chip">📚 {profile?.branch}</span>}
                 {profile?.semester && <span className="info-chip">📅 Sem {profile?.semester}</span>}

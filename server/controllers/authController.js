@@ -244,8 +244,12 @@ const forgotPassword = async (req, res) => {
 
     await user.save({ validateBeforeSave: false });
 
-    // Create reset url
-    const resetUrl = `${process.env.CLIENT_URL || "http://localhost:5173"}/reset-password/${resetToken}`;
+    // Dynamically resolve client URL from request origin (works on both Vercel and localhost)
+    const origin = req.headers.origin || req.headers.referer;
+    const clientUrl = origin
+      ? origin.replace(/\/+$/, '') // Remove trailing slashes
+      : (process.env.CLIENT_URL || "http://localhost:5173");
+    const resetUrl = `${clientUrl}/reset-password/${resetToken}`;
 
     try {
       const emailSent = await sendPasswordResetEmail(user, resetUrl);

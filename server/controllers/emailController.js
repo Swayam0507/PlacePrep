@@ -45,6 +45,10 @@ const sendTestResultEmail = async (req, res) => {
     const userId = req.user._id;
     const { testAttemptId } = req.body;
 
+    // Dynamically resolve client URL from request origin
+    const origin = req.headers.origin || req.headers.referer;
+    const clientUrl = origin ? origin.replace(/\/+$/, '') : (process.env.CLIENT_URL || 'http://localhost:5173');
+
     if (!testAttemptId) {
       return res.status(400).json({
         success: false,
@@ -136,7 +140,7 @@ const sendTestResultEmail = async (req, res) => {
             </p>
 
             <div style="text-align: center;">
-              <a href="${process.env.CLIENT_URL || "http://localhost:5173"}/test-history" class="btn">
+              <a href="${clientUrl}/test-history" class="btn">
                 View Full History →
               </a>
             </div>
@@ -187,6 +191,10 @@ const sendPlacementReadiness = async (req, res) => {
   try {
     const userId = req.user._id;
     const user = await User.findById(userId);
+
+    // Dynamically resolve client URL from request origin
+    const origin = req.headers.origin || req.headers.referer;
+    const clientUrl = origin ? origin.replace(/\/+$/, '') : (process.env.CLIENT_URL || 'http://localhost:5173');
 
     // Compute analytics
     const attempts = await TestAttempt.find({ userId }).lean();
@@ -289,7 +297,7 @@ const sendPlacementReadiness = async (req, res) => {
             `}
 
             <div style="text-align: center;">
-              <a href="${process.env.CLIENT_URL || "http://localhost:5173"}/dashboard" class="btn">
+              <a href="${clientUrl}/dashboard" class="btn">
                 View Dashboard →
               </a>
             </div>

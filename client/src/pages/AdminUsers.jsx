@@ -21,7 +21,7 @@ const AdminUsers = () => {
         page: filters.page,
         limit: 15,
         search: filters.search,
-        role: filters.role,
+        role: "student", // Only show students, not the admin
       });
       setUsers(response.data.users);
       setPagination(response.data.pagination);
@@ -82,8 +82,8 @@ const AdminUsers = () => {
       <div className="admin-container">
         <div className="admin-header">
           <div>
-            <h1>👥 Manage Users</h1>
-            <p>View, edit, and manage platform users</p>
+            <h1>👥 Manage Students</h1>
+            <p>View, edit, and manage platform students</p>
           </div>
         </div>
 
@@ -101,16 +101,7 @@ const AdminUsers = () => {
             <button type="submit" className="search-btn">🔍</button>
           </form>
 
-          <select
-            value={filters.role}
-            onChange={(e) => setFilters({ ...filters, role: e.target.value, page: 1 })}
-            className="admin-select"
-            id="admin-role-filter"
-          >
-            <option value="">All Roles</option>
-            <option value="student">Students</option>
-            <option value="admin">Admins</option>
-          </select>
+
         </div>
 
         {/* Users Table */}
@@ -118,7 +109,7 @@ const AdminUsers = () => {
           <div className="loading-screen">
             <div className="loading-spinner">
               <div className="spinner"></div>
-              <p>Loading users...</p>
+               <p>Loading students...</p>
             </div>
           </div>
         ) : (
@@ -129,7 +120,6 @@ const AdminUsers = () => {
                   <tr>
                     <th>Name</th>
                     <th>Email</th>
-                    <th>Role</th>
                     <th>Branch</th>
                     <th>CGPA</th>
                     <th>Tests</th>
@@ -147,12 +137,6 @@ const AdminUsers = () => {
                         <span>{user.name}</span>
                       </td>
                       <td>{user.email}</td>
-                      <td>
-                        <span className={`role-badge ${user.role}`}>
-                          {user.role === "admin" ? "🛡️ " : "🎓 "}
-                          {user.role}
-                        </span>
-                      </td>
                       <td>{user.branch || "—"}</td>
                       <td>{user.cgpa || "—"}</td>
                       <td>{user.totalTests}</td>
@@ -179,8 +163,8 @@ const AdminUsers = () => {
                   ))}
                   {users.length === 0 && (
                     <tr>
-                      <td colSpan="8" style={{ textAlign: "center", padding: "40px" }}>
-                        No users found.
+                       <td colSpan="7" style={{ textAlign: "center", padding: "40px" }}>
+                        No students found.
                       </td>
                     </tr>
                   )}
@@ -218,22 +202,11 @@ const AdminUsers = () => {
           <div className="modal-overlay" onClick={() => setEditingUser(null)}>
             <div className="modal-content modal-small" onClick={(e) => e.stopPropagation()}>
               <div className="modal-header">
-                <h2>✏️ Edit User: {editingUser.name}</h2>
+                <h2>✏️ Edit Student: {editingUser.name}</h2>
                 <button className="modal-close" onClick={() => setEditingUser(null)}>✕</button>
               </div>
 
               <form onSubmit={handleUpdate}>
-                <div className="form-group">
-                  <label htmlFor="edit-role">Role</label>
-                  <select
-                    id="edit-role"
-                    value={editForm.role}
-                    onChange={(e) => setEditForm({ ...editForm, role: e.target.value })}
-                  >
-                    <option value="student">Student</option>
-                    <option value="admin">Admin</option>
-                  </select>
-                </div>
 
                 <div className="form-group">
                   <label htmlFor="edit-branch">Branch</label>
@@ -263,7 +236,7 @@ const AdminUsers = () => {
                     Cancel
                   </button>
                   <button type="submit" className="save-btn" disabled={saving}>
-                    {saving ? "Saving..." : "Update User"}
+                     {saving ? "Saving..." : "Update Student"}
                   </button>
                 </div>
               </form>

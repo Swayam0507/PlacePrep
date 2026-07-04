@@ -27,7 +27,7 @@ import AdminUsers from "./pages/AdminUsers";
 
 // Redirect authenticated users away from auth pages
 const PublicRoute = ({ children }) => {
-  const { isAuthenticated, loading } = useAuth();
+  const { isAuthenticated, user, loading } = useAuth();
 
   if (loading) {
     return (
@@ -41,7 +41,7 @@ const PublicRoute = ({ children }) => {
   }
 
   if (isAuthenticated) {
-    return <Navigate to="/dashboard" replace />;
+    return <Navigate to={user?.role === "admin" ? "/admin" : "/dashboard"} replace />;
   }
 
   return children;
@@ -74,7 +74,7 @@ const AdminRoute = ({ children }) => {
 };
 
 const AppContent = () => {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, user } = useAuth();
 
   return (
     <>
@@ -85,7 +85,7 @@ const AppContent = () => {
           path="/"
           element={
             isAuthenticated ? (
-              <Navigate to="/dashboard" replace />
+              <Navigate to={user?.role === "admin" ? "/admin" : "/dashboard"} replace />
             ) : (
               <LandingPage />
             )

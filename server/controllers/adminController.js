@@ -85,10 +85,10 @@ const getAllUsers = async (req, res) => {
  */
 const updateUser = async (req, res) => {
   try {
-    const { role, branch, semester } = req.body;
+    const { branch, semester } = req.body;
 
     const updateData = {};
-    if (role && ["student", "admin"].includes(role)) updateData.role = role;
+    // Role changes are not allowed — only one admin exists
     if (branch !== undefined) updateData.branch = branch;
     if (semester !== undefined) updateData.semester = semester;
 

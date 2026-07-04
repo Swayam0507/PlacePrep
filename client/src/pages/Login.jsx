@@ -24,7 +24,13 @@ const Login = () => {
 
     setSubmitting(false);
     if (result?.success) {
-      navigate("/dashboard");
+      // Redirect based on role: admin → admin panel, student → student dashboard
+      const userData = JSON.parse(localStorage.getItem("user"));
+      if (userData?.role === "admin") {
+        navigate("/admin");
+      } else {
+        navigate("/dashboard");
+      }
     }
   };
 

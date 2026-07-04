@@ -77,7 +77,7 @@ const AdminDashboard = () => {
               onClick={() => handleExport("users")}
               disabled={!!exporting}
             >
-              {exporting === "users" ? "Exporting..." : "📥 Export Users"}
+              {exporting === "users" ? "Exporting..." : "📥 Export Students"}
             </button>
             <button
               className="export-btn"
@@ -94,8 +94,8 @@ const AdminDashboard = () => {
           <div className="admin-stat-card">
             <div className="stat-icon" style={{ background: "linear-gradient(135deg, #6366f1, #8b5cf6)" }}>👥</div>
             <div className="stat-details">
-              <span className="stat-number">{overview.totalUsers || 0}</span>
-              <span className="stat-label">Total Users</span>
+              <span className="stat-number">{overview.totalStudents || 0}</span>
+              <span className="stat-label">Total Students</span>
             </div>
           </div>
           <div className="admin-stat-card">
@@ -126,13 +126,7 @@ const AdminDashboard = () => {
               <span className="stat-label">Avg Score</span>
             </div>
           </div>
-          <div className="admin-stat-card">
-            <div className="stat-icon" style={{ background: "linear-gradient(135deg, #7c3aed, #a855f7)" }}>🛡️</div>
-            <div className="stat-details">
-              <span className="stat-number">{overview.totalAdmins || 0}</span>
-              <span className="stat-label">Admins</span>
-            </div>
-          </div>
+
         </div>
 
         {/* Category Performance */}

@@ -7,8 +7,35 @@ const connectDB = require("./config/db");
 // Load environment variables
 dotenv.config();
 
-// Connect to MongoDB
-connectDB();
+// Seed admin account (called after DB connects)
+const seedAdmin = async () => {
+  try {
+    const User = require("./models/User");
+    const existingAdmin = await User.findOne({ email: "admin@placeprep.com" });
+    if (!existingAdmin) {
+      await User.create({
+        name: "Dr. Rajesh Kumar",
+        email: "admin@placeprep.com",
+        password: "Admin@2026",
+        role: "admin",
+        branch: "Training & Placement Cell",
+        semester: 1,
+        cgpa: 10,
+        bio: "Head of Training & Placement Cell. 15+ years of experience in campus recruitment and student career development.",
+        phone: "+91 98765 43210",
+        skills: ["Student Mentoring", "Industry Relations", "Recruitment Strategy", "Career Counseling"],
+      });
+      console.log("✅ Admin account seeded: admin@placeprep.com / Admin@2026");
+    }
+  } catch (err) {
+    // Admin may already exist or DB not ready yet — ignore
+  }
+};
+
+// Connect to MongoDB and seed admin (for local dev, starts immediately)
+let dbReady = connectDB().then(async () => {
+  await seedAdmin();
+});
 
 const app = express();
 
@@ -16,6 +43,29 @@ const app = express();
 app.set("trust proxy", 1);
 
 // --------------- Middleware ---------------
+
+// Ensure DB connection is ready before handling any request
+// This is critical for serverless environments (Vercel) where the
+// connection may not be established before the first request arrives
+app.use(async (req, res, next) => {
+  try {
+    await dbReady;
+    next();
+  } catch (err) {
+    console.error("DB connection failed:", err.message);
+    // Try reconnecting
+    try {
+      dbReady = connectDB();
+      await dbReady;
+      next();
+    } catch (retryErr) {
+      res.status(500).json({
+        success: false,
+        message: "Database connection failed. Please try again.",
+      });
+    }
+  }
+});
 
 // Parse JSON bodies
 app.use(express.json({ limit: "10mb" }));
@@ -31,6 +81,7 @@ const allowedOrigins = [
   process.env.CLIENT_URL,
   "http://localhost:5173",
   "http://localhost:5174",
+  "https://place-prep-five.vercel.app",
 ];
 
 app.use(
@@ -147,3 +198,4 @@ if (!process.env.VERCEL) {
 
 // Export the Express API
 module.exports = app;
+

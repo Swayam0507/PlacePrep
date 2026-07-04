@@ -11,13 +11,16 @@ dotenv.config({ path: path.join(__dirname, "..", ".env") });
 const User = require("../models/User");
 
 const ADMIN_DATA = {
-  name: "Admin",
+  name: "Dr. Rajesh Kumar",
   email: "admin@placeprep.com",
-  password: "Admin@123",
+  password: "Admin@2026",
   role: "admin",
-  branch: "Administration",
+  branch: "Training & Placement Cell",
   semester: 1,
   cgpa: 10,
+  bio: "Head of Training & Placement Cell. 15+ years of experience in campus recruitment and student career development.",
+  phone: "+91 98765 43210",
+  skills: ["Student Mentoring", "Industry Relations", "Recruitment Strategy", "Career Counseling"],
 };
 
 const seedAdmin = async () => {
@@ -25,28 +28,17 @@ const seedAdmin = async () => {
     await mongoose.connect(process.env.MONGO_URI);
     console.log("📦 Connected to MongoDB");
 
-    // Check if admin exists
-    const existingAdmin = await User.findOne({ email: ADMIN_DATA.email });
+    // Remove old admin accounts
+    await User.deleteMany({ role: "admin" });
+    console.log("🗑️  Removed old admin accounts");
 
-    if (existingAdmin) {
-      console.log("✅ Admin user already exists:");
-      console.log(`   Email: ${existingAdmin.email}`);
-      console.log(`   Role: ${existingAdmin.role}`);
-
-      // Ensure role is admin
-      if (existingAdmin.role !== "admin") {
-        existingAdmin.role = "admin";
-        await existingAdmin.save();
-        console.log("   → Updated role to admin");
-      }
-    } else {
-      const admin = await User.create(ADMIN_DATA);
-      console.log("✅ Admin user created successfully:");
-      console.log(`   Name: ${admin.name}`);
-      console.log(`   Email: ${admin.email}`);
-      console.log(`   Password: Admin@123`);
-      console.log(`   Role: ${admin.role}`);
-    }
+    // Create fresh admin
+    const admin = await User.create(ADMIN_DATA);
+    console.log("✅ Admin user created successfully:");
+    console.log(`   Name: ${admin.name}`);
+    console.log(`   Email: ${admin.email}`);
+    console.log(`   Password: Admin@2026`);
+    console.log(`   Role: ${admin.role}`);
 
     await mongoose.connection.close();
     console.log("\n📦 Database connection closed.");

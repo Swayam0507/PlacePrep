@@ -173,8 +173,8 @@ const Dashboard = () => {
             </div>
           </div>
           <div className="hero-badge">
-            <span className={`role-tag ${user?.role}`}>
-              {user?.role === "admin" ? "🛡️ Admin" : "🎓 Student"}
+            <span className={`role-tag student`}>
+              {"🎓 Student"}
             </span>
           </div>
         </div>
